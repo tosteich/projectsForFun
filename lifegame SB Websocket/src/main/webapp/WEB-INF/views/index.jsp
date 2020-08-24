@@ -30,7 +30,7 @@
     </div>
     <div class="row pt-2">
         <div class="col-4">
-            <a href="save" class="btn btn-secondary mt-1" id="btn_save" download>SAVE</a>
+            <button class="btn btn-secondary mt-1" id="btn_save">SAVE</button>
             <label class="btn btn-secondary mt-1" id="fileLabel">LOAD
                 <input type="file" accept=".lif" id="inputFile" style="display: none;">
             </label>

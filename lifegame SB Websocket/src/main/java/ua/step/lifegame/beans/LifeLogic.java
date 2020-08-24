@@ -18,9 +18,7 @@ import java.util.TreeSet;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.multipart.MultipartFile;
+
 
 @Component
 @Scope(scopeName = "websocket", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -251,9 +249,9 @@ public class LifeLogic {
 
     }
     
-    public void loadFile (MultipartFile file) {
+    public void loadFile (String file) {
     	try (InputStream is = new ByteArrayInputStream(file.getBytes());
-                LineNumberReader fileReader = new LineNumberReader(new InputStreamReader(is))){
+               LineNumberReader fileReader = new LineNumberReader(new InputStreamReader(is))){
                String str;
                int startX = 0;
                int startY = 0;

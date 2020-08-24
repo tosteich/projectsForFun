@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
     let isGreedEnable = true;
     let array = [];
     let canvasWidth, canvasHeight, widthCenter, heightCenter, offX, offY, dragX, dragY, timer, running,
-        generation, aliveCells, isGameOver;
+        generation, aliveCells, isGameOver, savedGame;
     let gameCanvas = $("#gameCanvas");
 	let stompClient = null;
 	
@@ -170,28 +170,20 @@ jQuery(document).ready(function ($) {
     
     $("#btn_save").click(() => {
         running = false;
+        command("save");
     });
+    
 
     let inputFile = $("#inputFile");
     inputFile.change(() => {
         running = false;
         if (inputFile[0].files.length !== 0) {
             clearInterval(timer);
-            let file = inputFile[0].files[0];
-            let formData = new FormData();
-            formData.append("file", file)
-            $.ajax({
-                url: "load",
-                type: "POST",
-                contentType: false,
-                processData: false,
-                cache: false,
-                data: formData,
-                success: function (data) {
-                    parseData(data);
-                    drawGrid();
-                }
-            });
+            let reader = new FileReader();
+            reader.readAsText(inputFile[0].files[0]);
+            reader.onloadend = () => {
+                load("load", reader.result)
+            }
             inputFile[0].value = null;
         }
     })
@@ -199,12 +191,15 @@ jQuery(document).ready(function ($) {
     function connect() {
     	let socket = new SockJS('/MyWebsocket');
     	stompClient = Stomp.over(socket);
-//    	stompClient.debug = null;
+    	stompClient.debug = null;
     	stompClient.connect({}, function (frame) {
     		console.log('Connected: ' + frame);
-    		stompClient.subscribe('/updatedField', field => {
+    		stompClient.subscribe('/user/updatedField', field => {
                 parseData(JSON.parse(field.body));
                 drawGrid();
+    		});
+    		stompClient.subscribe('/user/save', txt => {
+    			saveGame(txt);
     		});
     		command("getdata")
     	});
@@ -223,5 +218,18 @@ jQuery(document).ready(function ($) {
     	} else {
     		stompClient.send("/app/"+command);
     	}
+    }
+    
+    function load(command, file) {
+    		stompClient.send("/app/"+command,{}, file);
+    }
+    
+    function saveGame (txt) {
+		let a = document.createElement('a');
+        a.setAttribute('href', 'data:application/txt, ' + encodeURIComponent(txt.body))
+        a.setAttribute('download', 'save.lif');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
 })
