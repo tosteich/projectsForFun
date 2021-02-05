@@ -1,0 +1,12 @@
+{
+  "name": "My Gaggia",
+  "short_name": "Gaggia",
+  "icons": [{
+        "src": "https://tosteich.github.io/projectsForFun/coffee.png",
+        "sizes": "150x150",
+        "type": "image/png"
+      }],
+  "display": "standalone",
+  "background_color": "#3E4EB8",
+  "theme_color": "#2F3BA2"
+}
