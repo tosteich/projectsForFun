@@ -1,0 +1,347 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="manifest" href="https://tosteich.github.io/projectsForFun/manifest.json">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  <style>
+    html {
+
+     display: inline-block;
+     margin: 0px auto;
+    }
+    body {
+      font-family: Arial;
+    }
+    h2 { font-size: 3.0rem; text-align: center; margin-block: 0;}
+    .one-row { 
+      font-size: 2.5rem; 
+      margin:auto; 
+      display:flex; 
+      flex-wrap: wrap; 
+      max-width: 600px; 
+      min-width: 346px; 
+      padding:4px 4px;
+      }
+    .ds-labels {
+      font-size: 1.4rem;
+      vertical-align:middle;
+      min-width: 170px;
+      padding: 10px 0 0 8px;
+      display: flex;
+    }
+    .value {
+      text-align: right; 
+      min-width: 90px; 
+      max-width: 150px; 
+      font-size: 2.5rem; 
+      display: block;
+      margin-left:auto;
+      padding: 0;
+      }
+    .icon {
+      min-width: 40px;
+      text-align: center;
+    }
+    .timerButton {
+      display: flex;
+     }
+    #temps { width: 80px;}
+    div.smoothie-chart-tooltip {
+      background: #444;
+      padding: 1em;
+      margin-top: 20px;
+      font-family: consolas;
+      color: white;
+      font-size: 10px;
+      pointer-events: none;
+    }
+    #indicator {
+      max-width: 360px;
+      margin-left:auto;
+      text-align: right;
+      align-self: center;
+    }
+    .red i{
+      color: crimson;
+    }
+    .green i {
+      color: lawngreen;
+    }
+    .conf-text {
+      color: #059e8a;
+     animation-name: confirm;
+     animation-duration: 4s;
+    }
+    @keyframes confirm {
+      from   {color: lawngreen;}
+      to {color: black;}
+    }
+    .tab-content {
+      width:100%;
+    }
+    .nav-link {
+      font-size: 1.8rem;
+      color: black;
+    }
+  
+</style>
+</head>
+<body>
+  <div class="one-row">
+  <h2>GAGGIA</h2>
+  <button id="indicator" class="btn btn-outline-secondary red" onclick="reboot()">Reboot <i class="fas fa-bullseye"></i></button>
+  </div>
+  <div class="one-row">
+  <ul class="nav nav-tabs nav-fill" id="pills-tab" role="tablist" style="width:100%">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Settings</a>
+    </li>
+  </ul>
+
+</div>
+  <div class="one-row">
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="one-row">
+          <div class="icon">
+            <i class="fas fa-thermometer-half" style="color:#059e8a;"></i> 
+          </div> 
+          <div class="ds-labels">Temperature, &deg;C</div> 
+          <div class="value" id="temperaturec">00.00</div>
+        </div>
+        <div class="one-row">
+          <div class="icon">
+          <svg enable-background='new 0 0 40.542 40.541'height=40.541px id=Layer_1 version=1.1 viewBox='0 0 40.542 40.541'width=40.542px x=0px xml:space=preserve xmlns=http://www.w3.org/2000/svg xmlns:xlink=http://www.w3.org/1999/xlink y=0px><g>
+          <path d='M34.313,20.271c0-0.552,0.447-1,1-1h5.178c-0.236-4.841-2.163-9.228-5.214-12.593l-3.425,3.424
+          c-0.195,0.195-0.451,0.293-0.707,0.293s-0.512-0.098-0.707-0.293c-0.391-0.391-0.391-1.023,0-1.414l3.425-3.424
+          c-3.375-3.059-7.776-4.987-12.634-5.215c0.015,0.067,0.041,0.13,0.041,0.202v4.687c0,0.552-0.447,1-1,1s-1-0.448-1-1V0.25
+          c0-0.071,0.026-0.134,0.041-0.202C14.39,0.279,9.936,2.256,6.544,5.385l3.576,3.577c0.391,0.391,0.391,1.024,0,1.414
+          c-0.195,0.195-0.451,0.293-0.707,0.293s-0.512-0.098-0.707-0.293L5.142,6.812c-2.98,3.348-4.858,7.682-5.092,12.459h4.804
+          c0.552,0,1,0.448,1,1s-0.448,1-1,1H0.05c0.525,10.728,9.362,19.271,20.22,19.271c10.857,0,19.696-8.543,20.22-19.271h-5.178
+          C34.76,21.271,34.313,20.823,34.313,20.271z M23.084,22.037c-0.559,1.561-2.274,2.372-3.833,1.814
+          c-1.561-0.557-2.373-2.272-1.815-3.833c0.372-1.041,1.263-1.737,2.277-1.928L25.2,7.202L22.497,19.05
+          C23.196,19.843,23.464,20.973,23.084,22.037z'fill=#059e8a /></g></svg>
+        </div>
+          <div class="ds-labels">Pressure, Bars</div> 
+          <div class="value" id="pressure">00.00</div>
+        </div>
+        <div class="one-row">
+          <div class="timerButton" id="timerButton">
+            <div class="icon">
+              <i class="fas fa-clock" style="color:#059e8a;"></i> 
+            </div> 
+            <div class="ds-labels">
+              <div id="timerName">Timer</div> 
+              <div>, Secs</div> 
+            </div>
+          </div>
+          <div class="value" id="timerTime">0.00</div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="one-row">
+          <div class="ds-labels">Change target Temp:</div> 
+              <input type="number" class="value form-control" id="temps" onchange="changeTemp();" min="20" max="105" value='00'>
+          </div>
+          <div class="one-row">
+            <div class="ds-labels">Change Pid Kp:</div> 
+            <input type="number" class="value form-control" id="pidKp" step="0.01" onchange="changePidKp()" value='0.00'>
+          </div>    
+          <div class="one-row">
+            <div class="ds-labels">Change Pid Ki:</div> 
+            <input type="number" class="value form-control" id="pidKi" step="0.01" onchange="changePidKi()" value='0.00'>
+          </div> 
+          <div class="one-row">
+            <div class="ds-labels">Change Pid Kd:</div> 
+            <input type="number" class="value form-control" id="pidKd" step="0.01" onchange="changePidKd()" value='0.00'>
+          </div>   
+      </div>
+    </div>
+  </div>    
+
+  <div class="one-row">
+    <canvas id="smoothie-chart" style="width:100%; height:200px"></canvas>
+  </div>
+ 
+</body>
+<script type="text/javascript" src="https://tosteich.github.io/projectsForFun/smoothie.js"></script>
+<script>
+if ('wakeLock' in navigator) {
+  let wakeLock = null;
+  const requestWakeLock = async () => {
+    try {
+      wakeLock = await navigator.wakeLock.request();
+      wakeLock.addEventListener('release', () => {
+        console.log('Screen Wake Lock released:', wakeLock.released);
+      });
+      console.log('Screen Wake Lock released:', wakeLock.released);
+    } catch (err) {
+      console.error(`${err.name}, ${err.message}`);
+    }
+  };
+  
+  window.setTimeout(() => {
+    wakeLock.release();
+    wakeLock = null;
+  }, 20*60*1000);
+  
+  const handleVisibilityChange = async () => {
+    if (wakeLock !== null && document.visibilityState === 'visible') {
+      await requestWakeLock();
+    }
+  };
+
+  const activateWakeLock = async () => {
+    if (wakeLock == null) {
+      await requestWakeLock();
+    }
+  };
+
+  document.addEventListener('click', activateWakeLock);
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+  const hostAddr = '10.0.0.180';
+  let lastMessageTime;
+  let chart = new SmoothieChart({responsive: true,millisPerPixel:500,maxValueScale:1.1,minValueScale:1.1,grid:{fillStyle:'#928b8b',strokeStyle:'#000000',sharpLines:true,millisPerLine:10000,verticalSections:12},labels:{precision:1},tooltip:true}),
+    canvas = document.getElementById('smoothie-chart'),
+    series = new TimeSeries();
+
+  chart.addTimeSeries(series, {lineWidth:1.7,strokeStyle:'#00ff00',fillStyle:'rgba(16,96,19,0.30)'});
+  chart.streamTo(canvas, 0)
+
+  const gateway = `ws://${hostAddr}/ws`;
+  let websocket;
+  function initWebSocket() {
+    console.log('Trying to open a WebSocket connection...');
+    websocket = new WebSocket(gateway);
+    websocket.onopen    = onOpen;
+    websocket.onclose   = onClose;
+    websocket.onmessage = onMessage; 
+  }
+  function onOpen(event) {
+    console.log('Connection opened');
+    websocket.send('initInfo');
+  }
+  function onClose(event) {
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
+  }
+  window.addEventListener('load', initWebSocket);
+  function onMessage(event) {
+    lastMessageTime = new Date().getTime();
+    indicator.classList.remove("red");
+    indicator.classList.add("green");
+    let reply = JSON.parse(event.data);
+    if (reply.name == "temp"){
+      let temp = parseFloat(reply.value);
+      document.getElementById("temperaturec").innerHTML = temp.toFixed(2);
+      series.append(new Date().getTime(), temp.toFixed(2));
+      return;
+    }
+    if (reply.name == "press"){
+      let press = parseFloat(reply.value);
+      document.getElementById("pressure").innerHTML = press.toFixed(2);
+      return;
+    }
+    if (reply.name == "time"){
+      document.getElementById("timerName").innerHTML = reply.state;
+      let time = parseFloat(reply.value);
+      document.getElementById("timerTime").innerHTML = time.toFixed(2);
+      return;
+    }
+    if (reply.name == "targetTemp"){
+      document.getElementById("temps").value = reply.value;
+      temps.classList.add("conf-text");
+      setTimeout(function() {
+        temps.classList.remove("conf-text");
+      }, 3000);
+      return;
+    }
+    if (reply.name == "pidKp"){
+      let figure = parseFloat(reply.value);
+      pidKp.value = figure.toFixed(2);
+      pidKp.classList.add("conf-text");
+      setTimeout(function() {
+        pidKp.classList.remove("conf-text");
+      }, 3000);
+      return;
+    }
+    if (reply.name == "pidKi"){
+      let figure = parseFloat(reply.value);
+      pidKi.value = figure.toFixed(2);
+      pidKi.classList.add("conf-text");
+      setTimeout(function() {
+        pidKi.classList.remove("conf-text");
+      }, 3000);
+      return;
+    }
+    if (reply.name == "pidKd"){
+      let figure = parseFloat(reply.value);
+      pidKd.value = figure.toFixed(2);
+      pidKd.classList.add("conf-text");
+      setTimeout(function() {
+        pidKd.classList.remove("conf-text");
+      }, 3000);
+      return;
+    }        
+    if (reply.name == "initInfo"){
+      let currTemp = parseFloat(reply.currentTemp);
+      let currPress = parseFloat(reply.currentPress);
+      let targTemp = reply.targetTemp;
+      let Kp = parseFloat(reply.pidKp);
+      let Ki = parseFloat(reply.pidKi);
+      let Kd = parseFloat(reply.pidKd);
+      temperaturec.innerHTML = currTemp.toFixed(2);
+      pressure.innerHTML = currPress.toFixed(2);
+      temps.value = targTemp;
+      pidKp.value = Kp.toFixed(2);
+      pidKi.value = Ki.toFixed(2);
+      pidKd.value = Kd.toFixed(2);
+      return;
+    }
+  }
+
+  let pingTimer = setTimeout(function ping() {
+    let pingTime = new Date().getTime();
+    if ((pingTime - lastMessageTime) > 2000) {
+      indicator.classList.remove("green");
+      indicator.classList.add("red");
+    }
+    pingTimer = setTimeout(ping, 1500);
+  }, 1500);
+  
+function changeTemp () {
+  var xhttp = new XMLHttpRequest();
+  let url = "http://" + hostAddr + "/targetTemp?temp=" + document.getElementById("temps").value
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+function changePidKp () {
+  var xhttp = new XMLHttpRequest();
+  let url = "http://" + hostAddr + "/changePidKp?Kp=" + pidKp.value
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+function changePidKi () {
+  var xhttp = new XMLHttpRequest();
+  let url = "http://" + hostAddr + "/changePidKi?Ki=" + pidKi.value
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+function changePidKd () {
+  var xhttp = new XMLHttpRequest();
+  let url = "http://" + hostAddr + "/changePidKd?Kd=" + pidKd.value
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+function reboot () {
+  websocket.send('reboot');
+}
+
+</script>
+</html>
