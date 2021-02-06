@@ -390,6 +390,7 @@
       series: {
         dataLabels: {
           enabled: true,
+          y: 40,
           format: '{point.y:,.2f}'
         }
       }
@@ -503,7 +504,7 @@
       series: {
         dataLabels: {
           enabled: true,
-         y: 25,
+          y: 40,
           format: '{point.y:,.2f}'
         }
       }
