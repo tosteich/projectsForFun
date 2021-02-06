@@ -391,6 +391,7 @@
         dataLabels: {
           enabled: true,
           y: 40,
+          className: 'gaugeLabel',
           format: '{point.y:,.2f}'
         }
       }
@@ -505,6 +506,7 @@
         dataLabels: {
           enabled: true,
           y: 40,
+          className: 'gaugeLabel',
           format: '{point.y:,.2f}'
         }
       }
