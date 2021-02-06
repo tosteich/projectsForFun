@@ -503,7 +503,7 @@
       series: {
         dataLabels: {
           enabled: true,
-         crop: false,
+         y: 25,
           format: '{point.y:,.2f}'
         }
       }
