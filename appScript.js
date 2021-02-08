@@ -60,25 +60,38 @@
     indicator.classList.remove("red");
     indicator.classList.add("green");
     let reply = JSON.parse(event.data);
-    if (reply.name == "temp") {
-      let temp = parseFloat(reply.value);
-      temp = temp.toFixed(2);
-      temp = parseFloat(temp);
-      newChart.series[0].addPoint([new Date().getTime(), temp], true, tick > 300 ? true : false);
-      tempGaugeChart.series[0].points[0].update(temp);
+    if (reply.name == "updateInfo") {
+      let currTemp = Math.round(reply.currentTemp*100)/100;
+      let currPress = Math.round(reply.currentPress*100)/100;
+      let currPower = parseInt(reply.currentPower);
+      let isFull = tick > 300 ? true : false;
+      tempGaugeChart.series[0].points[0].update(currTemp);
+      pressGaugeChart.series[0].points[0].update(currPress);
+      let currTime = new Date().getTime();
+      newChart.series[0].addPoint([currTime, currTemp], true, isFull);
+      newChart.series[1].addPoint([currTime, currPress], true, isFull);
+      newChart.series[2].addPoint([currTime, currPower], true, isFull);
       tick++;
       return;
-    }
-    if (reply.name == "press") {
-      let press = parseFloat(reply.value);
-      press = press.toFixed(2)
-      press = parseFloat(press);
-      pressChart.series[0].addPoint([new Date().getTime(), press], true, tick > 300 ? true : false);
-      pressGaugeChart.series[0].points[0].update(press);
-      return;
-    }
+    }   
+//     if (reply.name == "temp") {
+//       let temp = parseFloat(reply.value);
+//       temp = temp.toFixed(2);
+//       temp = parseFloat(temp);
+//       newChart.series[0].addPoint([new Date().getTime(), temp], true, tick > 300 ? true : false);
+//       tempGaugeChart.series[0].points[0].update(temp);
+//       tick++;
+//       return;
+//     }
+//     if (reply.name == "press") {
+//       let press = parseFloat(reply.value);
+//       press = press.toFixed(2)
+//       press = parseFloat(press);
+//       pressChart.series[0].addPoint([new Date().getTime(), press], true, tick > 300 ? true : false);
+//       pressGaugeChart.series[0].points[0].update(press);
+//       return;
+//     }
     if (reply.name == "time") {
-      //document.getElementById("timerName").innerHTML = reply.state;
       timerGaugeChart.yAxis[0].setTitle({ text: reply.state });
       let time = parseFloat(parseFloat(reply.value).toFixed(2));
       let second = timerGaugeChart.get('second');
@@ -176,119 +189,140 @@
 
   let newChart = Highcharts.chart('container', {
     chart: {
-      type: 'spline',
-      animation: Highcharts.svg,
+        zoomType: 'x',
+        type: 'spline',
+        animation: Highcharts.svg,
     },
 
     time: {
-      useUTC: false
+        useUTC: false
     },
     title: false,
     subtitle: false,
     xAxis: {
-      type: 'datetime',
-      tickPixelInterval: 150
+        type: 'datetime',
+        tickPixelInterval: 150,
+        labels: {
+            formatter: function() {
+              return Highcharts.dateFormat('%H:%M:%S', this.value)
+            }
+        }
     },
 
     yAxis: {
-      title: {
-        text: 'Temperature'
-      },
-      plotLines: [{
-        value: 0,
-        width: 1,
-        color: '#808080'
-      }]
+        title: false
     },
 
     tooltip: {
-      headerFormat: '<b>{series.name}</b><br/>',
-      pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+        shared: true,
+        crosshairs: true,
+        formatter: function () {
+            return this.points.reduce(function (s, point) {
+                switch (point.series.name) {
+                    case 'Temperature':
+                        return s + '<br/><span style="color:'+ point.series.color + '"><b>' + point.series.name + '</b></span>: <b>' +
+                            point.y.toFixed(2) + '</b> \xB0C';
+                    case 'Pressure':
+                        return s + '<br/><span style="color:'+ point.series.color + '"><b>' + point.series.name + '</b></span>: <b>' +
+                            (point.y/10).toFixed(2) + '</b> Bars';
+                    case 'Boiler Power':
+                        return s + '<br/><span style="color:'+ point.series.color + '"><b>' + point.series.name + '</b></span>: <b>' +
+                            point.y + '</b> %';
+                    default:
+                        break;
+                }
+
+            }, Highcharts.dateFormat('%A, %b %e %H:%M:%S', this.x));
+        },
     },
 
-    legend: {
-      enabled: false
-    },
     dataLabels: {
-      enabled: true,
-      formatter: function () {
-        return Highcharts.numberFormat(this.y, 2);
-      }
+        enabled: true,
+        formatter: function () {
+            return Highcharts.numberFormat(this.y, 2);
+        }
     },
 
     exporting: {
-      enabled: false
+        enabled: false
     },
     plotOptions: {
-      spline: {
-        marker: {
-          enabled: false
-        },
-      }
+        spline: {
+            marker: {
+                enabled: false
+            },
+        }
     },
     credits: {
-      enabled: false
+        enabled: false
     },
     series: [{
-      name: 'Temperature',
+        name: 'Temperature',
+        color: 'rgb(124, 181, 236)',
+    }, {
+        name: 'Pressure',
+        color: 'rgb(144, 237, 125)',
+    }, {
+        name: 'Boiler Power',
+        color: 'rgb(251, 155, 145)',
     }]
-  });
+});
 
-  let pressChart = Highcharts.chart('containerPressure', {
-    chart: {
-      type: 'spline',
-      animation: Highcharts.svg,
-    },
+//   let pressChart = Highcharts.chart('containerPressure', {
+//     chart: {
+//       type: 'spline',
+//       animation: Highcharts.svg,
+//     },
 
-    time: {
-      useUTC: false
-    },
+//     time: {
+//       useUTC: false
+//     },
 
-    xAxis: {
-      type: 'datetime',
-      tickPixelInterval: 150
-    },
-    title: false,
-    subtitle: false,
+//     xAxis: {
+//       type: 'datetime',
+//       tickPixelInterval: 150
+//     },
+//     title: false,
+//     subtitle: false,
 
-    yAxis: {
-      title: {
-        text: 'Pressure',
-      },
-      plotLines: [{
-        value: 0,
-        width: 1,
-        color: '#808080'
-      }]
-    },
+//     yAxis: {
+//       title: {
+//         text: 'Pressure',
+//       },
+//       plotLines: [{
+//         value: 0,
+//         width: 1,
+//         color: '#808080'
+//       }]
+//     },
 
-    tooltip: {
-      headerFormat: '<b>{series.name}</b><br/>',
-      pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
-    },
+//     tooltip: {
+//       headerFormat: '<b>{series.name}</b><br/>',
+//       pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+//     },
 
-    legend: {
-      enabled: false
-    },
+//     legend: {
+//       enabled: false
+//     },
 
-    exporting: {
-      enabled: false
-    },
-    plotOptions: {
-      spline: {
-        marker: {
-          enabled: false
-        },
-      }
-    },
-    credits: {
-      enabled: false
-    },
+//     exporting: {
+//       enabled: false
+//     },
+//     plotOptions: {
+//       spline: {
+//         marker: {
+//           enabled: false
+//         },
+//       }
+//     },
+//     credits: {
+//       enabled: false
+//     },
 
-    series: [{
-      name: 'Pressure',
-    }]
-  });
+//     series: [{
+//       name: 'Pressure',
+//     }]
+//   });
 
 
   let pressGaugeChart = Highcharts.chart('pressGauge', {
