@@ -69,7 +69,7 @@
       pressGaugeChart.series[0].points[0].update(currPress);
       let currTime = new Date().getTime();
       newChart.series[0].addPoint([currTime, currTemp], true, isFull);
-      newChart.series[1].addPoint([currTime, currPress], true, isFull);
+      newChart.series[1].addPoint([currTime, currPress * 10], true, isFull);
       newChart.series[2].addPoint([currTime, currPower], true, isFull);
       tick++;
       return;
