@@ -74,23 +74,6 @@
       tick++;
       return;
     }   
-//     if (reply.name == "temp") {
-//       let temp = parseFloat(reply.value);
-//       temp = temp.toFixed(2);
-//       temp = parseFloat(temp);
-//       newChart.series[0].addPoint([new Date().getTime(), temp], true, tick > 300 ? true : false);
-//       tempGaugeChart.series[0].points[0].update(temp);
-//       tick++;
-//       return;
-//     }
-//     if (reply.name == "press") {
-//       let press = parseFloat(reply.value);
-//       press = press.toFixed(2)
-//       press = parseFloat(press);
-//       pressChart.series[0].addPoint([new Date().getTime(), press], true, tick > 300 ? true : false);
-//       pressGaugeChart.series[0].points[0].update(press);
-//       return;
-//     }
     if (reply.name == "time") {
       timerGaugeChart.yAxis[0].setTitle({ text: reply.state });
       let time = parseFloat(parseFloat(reply.value).toFixed(2));
@@ -267,63 +250,6 @@
         color: 'rgb(251, 155, 145)',
     }]
 });
-
-//   let pressChart = Highcharts.chart('containerPressure', {
-//     chart: {
-//       type: 'spline',
-//       animation: Highcharts.svg,
-//     },
-
-//     time: {
-//       useUTC: false
-//     },
-
-//     xAxis: {
-//       type: 'datetime',
-//       tickPixelInterval: 150
-//     },
-//     title: false,
-//     subtitle: false,
-
-//     yAxis: {
-//       title: {
-//         text: 'Pressure',
-//       },
-//       plotLines: [{
-//         value: 0,
-//         width: 1,
-//         color: '#808080'
-//       }]
-//     },
-
-//     tooltip: {
-//       headerFormat: '<b>{series.name}</b><br/>',
-//       pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
-//     },
-
-//     legend: {
-//       enabled: false
-//     },
-
-//     exporting: {
-//       enabled: false
-//     },
-//     plotOptions: {
-//       spline: {
-//         marker: {
-//           enabled: false
-//         },
-//       }
-//     },
-//     credits: {
-//       enabled: false
-//     },
-
-//     series: [{
-//       name: 'Pressure',
-//     }]
-//   });
-
 
   let pressGaugeChart = Highcharts.chart('pressGauge', {
 
