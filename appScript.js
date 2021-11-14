@@ -147,7 +147,11 @@
      let timeInsec = parseInt(currTime);
      let minutes = timeInsec / 60;
      let seconds = timeInsec % 60;
-     currentTime.innerHTML = "standby " + minutes + ":" + seconds; 
+     currentTime.innerHTML = "standby " + addZero(minutes.toFixed(0)) + ":" + addZero(seconds); 
+  }
+
+  function int addZero(number) {
+     return ('0' + number).slice(-2);
   }
 
   function changeTemp() {
