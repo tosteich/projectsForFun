@@ -143,6 +143,13 @@
     pingTimer = setTimeout(ping, 1500);
   }, 1500);
 
+  function calcStandBy(currTime) {
+     let timeInsec = parseLong(currTime);
+     let minutes = timeInsec / 60;
+     let seconds = timeInsec % 60;
+     currentTime.innerHTML = "standby " + minutes + ":" + seconds; 
+  }
+
   function changeTemp() {
     var xhttp = new XMLHttpRequest();
     let url = "http://" + hostAddr + "/targetTemp?temp=" + document.getElementById("temps").value
