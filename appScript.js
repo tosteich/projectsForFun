@@ -144,7 +144,7 @@
   }, 1500);
 
   function calcStandBy(currTime) {
-     let timeInsec = parseLong(currTime);
+     let timeInsec = parseInt(currTime);
      let minutes = timeInsec / 60;
      let seconds = timeInsec % 60;
      currentTime.innerHTML = "standby " + minutes + ":" + seconds; 
