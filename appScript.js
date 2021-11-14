@@ -150,7 +150,7 @@
      currentTime.innerHTML = "standby " + addZero(minutes.toFixed(0)) + ":" + addZero(seconds); 
   }
 
-  function int addZero(number) {
+  function addZero(number) {
      return ('0' + number).slice(-2);
   }
 
