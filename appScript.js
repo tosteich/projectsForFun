@@ -145,9 +145,7 @@
 
   function calcStandBy(currTime) {
      let timeInsec = parseInt(currTime);
-     let minutes = timeInsec / 60;
-     let seconds = timeInsec % 60;
-     currentTime.innerHTML = "standby " + addZero(minutes.toFixed(0)) + ":" + addZero(seconds); 
+     currentTime.innerHTML = "standby " + addZero(Math.floor(timeInsec / 60)) + ":" + addZero(timeInsec % 60); 
   }
 
   function addZero(number) {
