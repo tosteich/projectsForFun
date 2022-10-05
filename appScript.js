@@ -34,7 +34,7 @@
     document.addEventListener('click', activateWakeLock);
     document.addEventListener('visibilitychange', handleVisibilityChange);
   }
-  const hostAddr = '10.0.0.48';
+  const hostAddr = '10.0.0.180';
   let lastMessageTime;
 
   const gateway = `ws://${hostAddr}/ws`;
